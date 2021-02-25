@@ -1,0 +1,17 @@
+Package: connectASPIC
+Type: Package
+Title: Fitting ASPIC (A Stock Production Model Incorporating Covariates) 
+Version: 0.1.0
+Authors@R: c(person("Marta", "Cousido Rocha", email = "marta.cousido@ieo.es", role = c("aut", "ths")),
+  person("Anxo", "Paz Cuña", email = "anxo.paz@hotmail.com", role = c("aut", "cre")),
+  person("Santiago", "Cerviño López", email = "santiago.cervino@ieo.es", role = c("aut", "ths")),
+  person("María Grazia", "Pennino", email = "grazia.pennino@ieo.es", role = c("aut", "ths"))
+  )
+Maintainer: Anxo Paz <anxo.paz@hotmail.com>
+Description: Our package fits ASPIC in R connecting with Version 7 of the ASPIC Suite program. For this aim, our package contains three functions for connecting R to ASPIC7 program: the first function creates and fills up an input file (.a7inp) for ASPIC7 program, once the input file is available our second function calls from R the ASPIC7 program to run the ASPIC model based on the created input file, finally the resulting output file (.fit,.bot) is reading in R using our third function.
+License: GPL-2
+Encoding: UTF-8
+LazyData: FALSE
+VignetteBuilder: knitr
+Suggests: knitr
+RoxygenNote: 7.1.0

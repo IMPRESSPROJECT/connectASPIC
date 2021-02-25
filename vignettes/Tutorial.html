@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Anxo Paz" />
+
+<meta name="date" content="2021-02-15" />
+
+<title>connectASPIC Tutorial</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">connectASPIC Tutorial</h1>
+<h4 class="author">Anxo Paz</h4>
+<h4 class="date">2021-02-15</h4>
+
+
+
+<div id="waspic" class="section level2">
+<h2>waspic</h2>
+<p>The function writes an ASPIC7 program input file (.a7inp) from the available information which must include at least relative biomass index and catch time series. Our function also allows to specify some adjustment options, as the initial value for the catchability coefficient, the fit mode (simple or bootstrap), the estimation method or the production curve shape.</p>
+<p>At first, you should introduce the data required for the model. This includes a catches serie and a biomass index. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co"># years</span></a>
+<a class="sourceLine" id="cb1-3" title="3">years=<span class="kw">seq</span>(<span class="dv">1980</span>,<span class="dv">2120</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co"># catches</span></a>
+<a class="sourceLine" id="cb1-6" title="6">C&lt;-<span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="fl">0.112</span>, <span class="fl">0.827</span>, <span class="fl">1.526</span>, <span class="fl">2.198</span>, <span class="fl">2.831</span>, <span class="fl">3.419</span>, <span class="fl">3.956</span>, <span class="fl">4.439</span>, <span class="fl">4.868</span>,</a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="fl">5.243</span>, <span class="fl">5.564</span>, <span class="fl">5.836</span>, <span class="fl">6.059</span>, <span class="fl">6.238</span>, <span class="fl">6.376</span>, <span class="fl">6.475</span>, <span class="fl">6.539</span>, <span class="fl">6.570</span>,</a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="fl">6.572</span>, <span class="fl">6.548</span>, <span class="fl">6.499</span>, <span class="fl">6.428</span>, <span class="fl">6.337</span>, <span class="fl">6.229</span>, <span class="fl">6.105</span>, <span class="fl">5.967</span>, <span class="fl">5.816</span>,</a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="fl">5.654</span>, <span class="fl">5.483</span>, <span class="fl">5.303</span>, <span class="fl">5.116</span>, <span class="fl">4.924</span>, <span class="fl">4.726</span>, <span class="fl">4.525</span>, <span class="fl">4.321</span>, <span class="fl">4.010</span>,</a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="fl">3.639</span>, <span class="fl">3.335</span>, <span class="fl">3.083</span>, <span class="fl">2.875</span>, <span class="fl">2.701</span>, <span class="fl">2.556</span>, <span class="fl">2.434</span>, <span class="fl">2.333</span>, <span class="fl">2.247</span>,</a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="fl">2.176</span>, <span class="fl">2.118</span>, <span class="fl">2.069</span>, <span class="fl">2.029</span>, <span class="fl">1.996</span>, <span class="fl">1.969</span>, <span class="fl">1.946</span>, <span class="fl">1.927</span>, <span class="fl">1.909</span>,</a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="fl">1.892</span>, <span class="fl">1.874</span>, <span class="fl">1.853</span>, <span class="fl">1.828</span>, <span class="fl">1.795</span>, <span class="fl">1.753</span>, <span class="fl">1.699</span>, <span class="fl">1.630</span>, <span class="fl">1.543</span>,</a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="fl">1.433</span>, <span class="fl">1.297</span>, <span class="fl">1.130</span>, <span class="fl">0.928</span>, <span class="fl">0.686</span>, <span class="fl">0.398</span>, <span class="fl">0.058</span>, <span class="fl">0.062</span>, <span class="fl">0.237</span>,</a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="fl">0.431</span>, <span class="fl">0.641</span>, <span class="fl">0.864</span>, <span class="fl">1.095</span>, <span class="fl">1.332</span>, <span class="fl">1.570</span>, <span class="fl">1.808</span>, <span class="fl">2.042</span>, <span class="fl">2.270</span>,</a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="fl">2.492</span>, <span class="fl">2.705</span>, <span class="fl">2.909</span>, <span class="fl">3.104</span>, <span class="fl">3.288</span>, <span class="fl">3.461</span>, <span class="fl">3.625</span>, <span class="fl">3.777</span>, <span class="fl">3.920</span>,</a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="fl">4.052</span>, <span class="fl">4.175</span>, <span class="fl">4.288</span>, <span class="fl">4.393</span>, <span class="fl">4.488</span>, <span class="fl">4.575</span>, <span class="fl">4.655</span>, <span class="fl">4.726</span>, <span class="fl">4.790</span>,</a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="fl">4.847</span>, <span class="fl">4.898</span>, <span class="fl">4.942</span>, <span class="fl">4.980</span>, <span class="fl">5.011</span>, <span class="fl">5.038</span>, <span class="fl">4.921</span>, <span class="fl">4.819</span>, <span class="fl">4.729</span>,</a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="fl">4.650</span>, <span class="fl">4.580</span>, <span class="fl">4.519</span>, <span class="fl">4.465</span>, <span class="fl">4.418</span>, <span class="fl">4.376</span>, <span class="fl">4.339</span>, <span class="fl">4.305</span>, <span class="fl">4.276</span>,</a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="fl">4.250</span>, <span class="fl">4.227</span>, <span class="fl">4.206</span>, <span class="fl">4.187</span>, <span class="fl">4.171</span>, <span class="fl">4.156</span>, <span class="fl">4.142</span>, <span class="fl">4.130</span>, <span class="fl">4.120</span>,</a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="fl">4.110</span>, <span class="fl">4.102</span>, <span class="fl">4.094</span>, <span class="fl">4.087</span>, <span class="fl">4.081</span>, <span class="fl">4.075</span>, <span class="fl">4.070</span>, <span class="fl">4.066</span>, <span class="fl">4.062</span>,</a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="fl">4.058</span>, <span class="fl">4.055</span>, <span class="fl">4.052</span>, <span class="fl">4.049</span>, <span class="fl">4.047</span>, <span class="fl">4.045</span>)</a>
+<a class="sourceLine" id="cb1-23" title="23"></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="co"># biomass index </span></a>
+<a class="sourceLine" id="cb1-25" title="25">BI&lt;-<span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb1-26" title="26"><span class="fl">52.08</span>, <span class="fl">57.61</span>, <span class="fl">55.32</span>, <span class="fl">52.18</span>, <span class="fl">53.11</span>, <span class="fl">52.77</span>, <span class="fl">51.12</span>, <span class="fl">46.12</span>, <span class="fl">46.35</span>,</a>
+<a class="sourceLine" id="cb1-27" title="27"><span class="fl">46.12</span>, <span class="fl">45.23</span>, <span class="fl">42.05</span>, <span class="fl">38.19</span>, <span class="fl">36.33</span>, <span class="fl">35.25</span>, <span class="fl">33.08</span>, <span class="fl">33.34</span>, <span class="fl">31.53</span>,</a>
+<a class="sourceLine" id="cb1-28" title="28"><span class="fl">28.52</span>, <span class="fl">27.00</span>, <span class="fl">25.75</span>, <span class="fl">24.16</span>, <span class="fl">22.14</span>, <span class="fl">21.11</span>, <span class="fl">20.24</span>, <span class="fl">18.89</span>, <span class="fl">16.98</span>,</a>
+<a class="sourceLine" id="cb1-29" title="29"><span class="fl">16.04</span>, <span class="fl">14.56</span>, <span class="fl">14.10</span>, <span class="fl">14.31</span>, <span class="fl">12.52</span>, <span class="fl">12.08</span>, <span class="fl">10.84</span>, <span class="fl">10.23</span>,  <span class="fl">9.16</span>,</a>
+<a class="sourceLine" id="cb1-30" title="30"> <span class="fl">8.53</span>,  <span class="fl">8.56</span>,  <span class="fl">7.35</span>,  <span class="fl">7.65</span>,  <span class="fl">7.41</span>,  <span class="fl">7.00</span>,  <span class="fl">6.87</span>,  <span class="fl">6.27</span>,  <span class="fl">6.32</span>,</a>
+<a class="sourceLine" id="cb1-31" title="31"> <span class="fl">6.86</span>,  <span class="fl">6.96</span>,  <span class="fl">7.42</span>,  <span class="fl">7.70</span>,  <span class="fl">7.28</span>,  <span class="fl">7.95</span>,  <span class="fl">8.09</span>,  <span class="fl">8.51</span>,  <span class="fl">9.01</span>,</a>
+<a class="sourceLine" id="cb1-32" title="32"> <span class="fl">9.12</span>, <span class="fl">10.07</span>, <span class="fl">10.74</span>, <span class="fl">11.60</span>, <span class="fl">11.27</span>, <span class="fl">12.90</span>, <span class="fl">13.84</span>, <span class="fl">14.57</span>, <span class="fl">16.04</span>,</a>
+<a class="sourceLine" id="cb1-33" title="33"><span class="fl">17.28</span>, <span class="fl">19.24</span>, <span class="fl">19.40</span>, <span class="fl">22.11</span>, <span class="fl">22.97</span>, <span class="fl">26.04</span>, <span class="fl">29.22</span>, <span class="fl">30.32</span>, <span class="fl">32.36</span>,</a>
+<a class="sourceLine" id="cb1-34" title="34"><span class="fl">33.55</span>, <span class="fl">37.63</span>, <span class="fl">38.79</span>, <span class="fl">39.55</span>, <span class="fl">39.34</span>, <span class="fl">41.86</span>, <span class="fl">39.65</span>, <span class="fl">42.66</span>, <span class="fl">45.81</span>,</a>
+<a class="sourceLine" id="cb1-35" title="35"><span class="fl">43.47</span>, <span class="fl">45.23</span>, <span class="fl">42.33</span>, <span class="fl">42.32</span>, <span class="fl">41.39</span>, <span class="fl">41.50</span>, <span class="fl">39.59</span>, <span class="fl">39.89</span>, <span class="fl">38.83</span>,</a>
+<a class="sourceLine" id="cb1-36" title="36"><span class="fl">37.67</span>, <span class="fl">38.38</span>, <span class="fl">37.77</span>, <span class="fl">38.90</span>, <span class="fl">34.85</span>, <span class="fl">36.09</span>, <span class="fl">34.18</span>, <span class="fl">35.77</span>, <span class="fl">31.39</span>,</a>
+<a class="sourceLine" id="cb1-37" title="37"><span class="fl">32.88</span>, <span class="fl">31.40</span>, <span class="fl">30.90</span>, <span class="fl">30.72</span>, <span class="fl">28.99</span>, <span class="fl">27.08</span>, <span class="fl">27.76</span>, <span class="fl">25.70</span>, <span class="fl">26.18</span>,</a>
+<a class="sourceLine" id="cb1-38" title="38"><span class="fl">24.82</span>, <span class="fl">26.05</span>, <span class="fl">25.08</span>, <span class="fl">25.43</span>, <span class="fl">25.08</span>, <span class="fl">25.16</span>, <span class="fl">26.24</span>, <span class="fl">22.79</span>, <span class="fl">22.70</span>,</a>
+<a class="sourceLine" id="cb1-39" title="39"><span class="fl">24.29</span>, <span class="fl">23.66</span>, <span class="fl">23.45</span>, <span class="fl">22.26</span>, <span class="fl">23.01</span>, <span class="fl">22.71</span>, <span class="fl">23.04</span>, <span class="fl">23.98</span>, <span class="fl">22.77</span>,</a>
+<a class="sourceLine" id="cb1-40" title="40"><span class="fl">22.30</span>, <span class="fl">23.24</span>, <span class="fl">21.71</span>, <span class="fl">23.45</span>, <span class="fl">22.58</span>, <span class="fl">24.47</span>, <span class="fl">22.94</span>, <span class="fl">23.57</span>, <span class="fl">22.23</span>,</a>
+<a class="sourceLine" id="cb1-41" title="41"><span class="fl">22.47</span>, <span class="fl">24.26</span>, <span class="fl">23.24</span>, <span class="fl">22.49</span>, <span class="fl">22.65</span>, <span class="fl">23.86</span>)</a></code></pre></div>
+<p>Once we define the required time series, the next step is to create the <span class="math inline">\(ini\)</span> list where initial values for the relation between biomass at <span class="math inline">\(t=0\)</span> and K, the maximum sustainable yield (MSY), the fishing mortality at the MSY and the capturability can be introduced. If <span class="math inline">\(ini\)</span> list is not defined then default values of such quantities are used.</p>
+<p>The final step to define the input list of waspic function is to create aspic list where different available adjustment options of ASPIC can be selected. Below, we can see different input lists for waspic function depending of such selections.</p>
+<ul>
+<li>Logistic (Schaefer) model, simple fitted adjustment and minimum squares estimation method (you should see it in the aspic list inside the output list, <span class="math inline">\(lst1\)</span>):</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">lst1=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;FIT&quot;</span>,<span class="dt">shape=</span><span class="st">&quot;LOGISTIC&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;SSE&quot;</span>))</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">waspic</span>(lst1,<span class="st">&quot;sse_log_f.a7inp&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Logistic (Schaefer) model, bootstrap adjustment (with 200 replications and a 97% confidence intervals) and minimum squares estimation method:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">lst2=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;BOT&quot;</span>,<span class="dt">nboot=</span><span class="dv">200</span>,<span class="dt">ciperc=</span><span class="dv">97</span>,<span class="dt">shape=</span><span class="st">&quot;LOGISTIC&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;SSE&quot;</span>))</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">waspic</span>(lst2,<span class="st">&quot;sse_log_b.a7inp&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Generalized (Pella-Tomlinson) model, simple fitted adjustment and minimum squares estimation method:</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">lst3=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;FIT&quot;</span>,<span class="dt">shape=</span><span class="st">&quot;GENFIT&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;SSE&quot;</span>))</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw">waspic</span>(lst3,<span class="st">&quot;sse_gen_f.a7inp&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Generalized (Pella-Tomlinson) model, bootstrap adjustment (with 200 replications and a 97% confidence intervals) and minimum squares estimation method:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">lst4=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;BOT&quot;</span>,<span class="dt">nboot=</span><span class="dv">200</span>,<span class="dt">ciperc=</span><span class="dv">97</span>,<span class="dt">shape=</span><span class="st">&quot;GENFIT&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;SSE&quot;</span>))</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">waspic</span>(lst4,<span class="st">&quot;sse_gen_b.a7inp&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Generalized (Pella-Tomlinson) model, simple fitted adjustment and least absolute values method:</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">lst5=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb6-2" title="2">         <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;FIT&quot;</span>,<span class="dt">shape=</span><span class="st">&quot;GENFIT&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;LAV&quot;</span>))</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="kw">waspic</span>(lst5,<span class="st">&quot;lav_gen_f.a7inp&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Logistic (Schaefer) model, simple fitted adjustment and maximum likelihood method:</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">lst6=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb7-2" title="2">         <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;FIT&quot;</span>,<span class="dt">shape=</span><span class="st">&quot;LOGISTIC&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;MLE&quot;</span>,<span class="dt">cv=</span><span class="kw">rep</span>(<span class="fl">0.1</span>,<span class="kw">length</span>(years))))</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">waspic</span>(lst6,<span class="st">&quot;mle_log_f.a7inp&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Generalized (Pella-Tomlinson) model, bootstrap adjustment (with 200 replications and a 97% confidence interval) and maximum likelihood method:</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">lst7=<span class="kw">list</span>(<span class="dt">timeC=</span>years, <span class="dt">obsC=</span>C, <span class="dt">obsI=</span>BI, <span class="dt">timeI=</span>years, <span class="dt">ini=</span><span class="kw">list</span>(<span class="dt">bk=</span><span class="fl">0.9</span>, <span class="dt">q=</span><span class="fl">0.2</span>, <span class="dt">MSY=</span><span class="dv">6</span>, <span class="dt">Fmsy=</span><span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb8-2" title="2">         <span class="dt">aspic=</span><span class="kw">list</span>(<span class="dt">mode=</span><span class="st">&quot;BOT&quot;</span>,<span class="dt">nboot=</span><span class="dv">200</span>,<span class="dt">ciperc=</span><span class="dv">97</span>,<span class="dt">shape=</span><span class="st">&quot;GENFIT&quot;</span>,<span class="dt">objfn=</span><span class="st">&quot;MLE&quot;</span>,<span class="dt">cv=</span><span class="kw">rep</span>(<span class="fl">0.1</span>,<span class="kw">length</span>(years))))</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="kw">waspic</span>(lst7,<span class="st">&quot;mle_gen_b.a7inp&quot;</span>)</a></code></pre></div>
+</div>
+<div id="faspic" class="section level2">
+<h2>faspic</h2>
+<p>Once we created the input file for the ASPIC7 program, we can run it from our R console using faspic function. The time after which the execution of R is suspended, either ASPIC program has finished the adjustment or not, must be indicated (see description of faspic). Hence, it should be greater than the time that ASPIC7 program needs to realize the adjustment, because if it is less than it, the executable is closed before to obtain any results. This time depends on the selected type of adjustment. For example, the generalized model requires more time than the logistic mode, and the bootstrap adjustment is slower than the simple fitted one.</p>
+<p>Once the adjustment is made, the program returns the output files containing the results (in the same directory as the input file was created).</p>
+<p>Below, the code to use this function is shown. Note that argument <span class="math inline">\(t\)</span> is an estimation of the time required for the adjustment.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">faspic</span>(<span class="st">&quot;sse_log_f.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">faspic</span>(<span class="st">&quot;sse_log_b.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">480</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="kw">faspic</span>(<span class="st">&quot;sse_gen_f.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">360</span>)</a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="kw">faspic</span>(<span class="st">&quot;sse_gen_b.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">2400</span>)</a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="kw">faspic</span>(<span class="st">&quot;lav_gen_f.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">240</span>)</a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="kw">faspic</span>(<span class="st">&quot;mle_log_f.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="kw">faspic</span>(<span class="st">&quot;mle_gen_b.a7inp&quot;</span>,<span class="dt">t=</span><span class="dv">2400</span>)</a></code></pre></div>
+</div>
+<div id="raspic" class="section level2">
+<h2>raspic</h2>
+<p>The output files (.fit or .bot) from the ASPIC7 program can be read in R using waspic function.</p>
+<p>This function reads the most relevant information derived from the adjustment. Such results include information about the type of adjustment (the fitted model and the estimation method), the contrast index value, the obtained estimates of reference points and trajectories or if any error occurs.</p>
+<p>The code for applying raspic in our examples is the following.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">res1&lt;-<span class="kw">raspic</span>(<span class="st">&quot;sse_log_f.fit&quot;</span>); res1</a>
+<a class="sourceLine" id="cb10-2" title="2">res2&lt;-<span class="kw">raspic</span>(<span class="st">&quot;sse_log_b.bot&quot;</span>); res2</a>
+<a class="sourceLine" id="cb10-3" title="3">res3&lt;-<span class="kw">raspic</span>(<span class="st">&quot;sse_gen_f.fit&quot;</span>); res3</a>
+<a class="sourceLine" id="cb10-4" title="4">res4&lt;-<span class="kw">raspic</span>(<span class="st">&quot;sse_gen_b.bot&quot;</span>); res4</a>
+<a class="sourceLine" id="cb10-5" title="5">res5&lt;-<span class="kw">raspic</span>(<span class="st">&quot;lav_gen_f.fit&quot;</span>); res5</a>
+<a class="sourceLine" id="cb10-6" title="6">res6&lt;-<span class="kw">raspic</span>(<span class="st">&quot;mle_log_f.fit&quot;</span>); res6</a>
+<a class="sourceLine" id="cb10-7" title="7">res7&lt;-<span class="kw">raspic</span>(<span class="st">&quot;mle_gen_b.bot&quot;</span>); res7</a></code></pre></div>
+<p>Below, you can see the results in example 1 as an illustration.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">res1</a>
+<a class="sourceLine" id="cb11-2" title="2"></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co"># $errorcode</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co"># [1] &quot;0&quot;</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co"># </span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co"># $convmsg</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="co"># [1] &quot;Normal convergence&quot;</span></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="co"># </span></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="co"># $states</span></a>
+<a class="sourceLine" id="cb11-10" title="10"><span class="co">#    time  Fest  B0est   Best Catch  Cest   SPest    FFmsy  BBmsy CPUEobs CPUEest residuals weight     BKest</span></a>
+<a class="sourceLine" id="cb11-11" title="11"><span class="co"># 1  1980 0.001 128.80 123.70 0.112 0.112 -9.5510 0.009571 2.9310   52.08  65.960   0.23633      1 1.4656350</span></a>
+<a class="sourceLine" id="cb11-12" title="12"><span class="co"># 2  1981 0.007 119.10 115.10 0.827 0.827 -6.7660 0.075920 2.7110   57.61  61.400   0.06379      1 1.3552572</span></a>
+<a class="sourceLine" id="cb11-13" title="13"><span class="co"># 3  1982 0.014 111.50 108.20 1.526 1.526 -4.7530 0.149000 2.5380   55.32  57.730   0.04264      1 1.2687756</span></a>
+<a class="sourceLine" id="cb11-14" title="14"><span class="co"># 4  1983 0.021 105.30 102.40 2.198 2.198 -3.2130 0.226800 2.3950   52.18  54.630   0.04585      1 1.1982249</span></a>
+<a class="sourceLine" id="cb11-15" title="15"><span class="co"># 5  1984 0.029  99.85  97.34 2.831 2.831 -1.9850 0.307400 2.2720   53.11  51.910  -0.02283      1 1.1362085</span></a>
+<a class="sourceLine" id="cb11-16" title="16"><span class="co"># 6  1985 0.037  95.03  92.75 3.419 3.419 -0.9742 0.389600 2.1630   52.77  49.460  -0.06472      1 1.0813609</span></a>
+<a class="sourceLine" id="cb11-17" title="17"><span class="co"># 7  1986 0.045  90.64  88.52 3.956 3.956 -0.1240 0.472400 2.0630   51.12  47.210  -0.07960      1 1.0314065</span></a>
+<a class="sourceLine" id="cb11-18" title="18"><span class="co"># 8  1987 0.052  86.56  84.57 4.439 4.439  0.6012 0.554800 1.9700   46.12  45.100  -0.02233      1 0.9849795</span></a>
+<a class="sourceLine" id="cb11-19" title="19"><span class="co"># 9  1988 0.060  82.72  80.83 4.868 4.868  1.2250 0.636500 1.8830   46.35  43.110  -0.07247      1 0.9412836</span></a>
+<a class="sourceLine" id="cb11-20" title="20"><span class="co"># 10 1989 0.068  79.08  77.28 5.243 5.243  1.7630 0.717100 1.8000   46.12  41.210  -0.11249      1 0.8998635</span></a>
+<a class="sourceLine" id="cb11-21" title="21"><span class="co"># 11 1990 0.075  75.60  73.87 5.564 5.564  2.2270 0.796100 1.7200   45.23  39.400  -0.13806      1 0.8602640</span></a>
+<a class="sourceLine" id="cb11-22" title="22"><span class="co"># 12 1991 0.083  72.26  70.60 5.836 5.836  2.6250 0.873700 1.6440   42.05  37.650  -0.11044      1 0.8222576</span></a>
+<a class="sourceLine" id="cb11-23" title="23"><span class="co"># 13 1992 0.090  69.05  67.45 6.059 6.059  2.9650 0.949400 1.5710   38.19  35.970  -0.05977      1 0.7857305</span></a>
+<a class="sourceLine" id="cb11-24" title="24"><span class="co"># 14 1993 0.097  65.96  64.42 6.238 6.238  3.2530 1.024000 1.5010   36.33  34.350  -0.05590      1 0.7505690</span></a>
+<a class="sourceLine" id="cb11-25" title="25"><span class="co"># 15 1994 0.104  62.97  61.49 6.376 6.376  3.4930 1.096000 1.4330   35.25  32.790  -0.07229      1 0.7165453</span></a>
+<a class="sourceLine" id="cb11-26" title="26"><span class="co"># 16 1995 0.110  60.09  58.66 6.475 6.475  3.6900 1.167000 1.3670   33.08  31.280  -0.05589      1 0.6837733</span></a>
+<a class="sourceLine" id="cb11-27" title="27"><span class="co"># 17 1996 0.117  57.30  55.92 6.539 6.539  3.8470 1.236000 1.3040   33.34  29.820  -0.11149      1 0.6520255</span></a>
+<a class="sourceLine" id="cb11-28" title="28"><span class="co"># 18 1997 0.123  54.61  53.28 6.570 6.570  3.9690 1.303000 1.2430   31.53  28.410  -0.10411      1 0.6214156</span></a>
+<a class="sourceLine" id="cb11-29" title="29"><span class="co"># 19 1998 0.130  52.01  50.72 6.572 6.572  4.0570 1.370000 1.1840   28.52  27.050  -0.05294      1 0.5918298</span></a>
+<a class="sourceLine" id="cb11-30" title="30"><span class="co"># 20 1999 0.136  49.50  48.25 6.548 6.548  4.1160 1.434000 1.1260   27.00  25.730  -0.04812      1 0.5632681</span></a>
+<a class="sourceLine" id="cb11-31" title="31"><span class="co"># 21 2000 0.142  47.06  45.86 6.499 6.499  4.1480 1.498000 1.0710   25.75  24.460  -0.05151      1 0.5355030</span></a>
+<a class="sourceLine" id="cb11-32" title="32"><span class="co"># 22 2001 0.148  44.71  43.55 6.428 6.428  4.1560 1.560000 1.0180   24.16  23.230  -0.03945      1 0.5087619</span></a>
+<a class="sourceLine" id="cb11-33" title="33"><span class="co"># 23 2002 0.153  42.44  41.32 6.337 6.337  4.1420 1.621000 0.9658   22.14  22.040  -0.00474      1 0.4829313</span></a>
+<a class="sourceLine" id="cb11-34" title="34"><span class="co"># 24 2003 0.159  40.25  39.16 6.229 6.229  4.1070 1.681000 0.9159   21.11  20.880  -0.01072      1 0.4580109</span></a>
+<a class="sourceLine" id="cb11-35" title="35"><span class="co"># 25 2004 0.165  38.12  37.08 6.105 6.105  4.0550 1.740000 0.8676   20.24  19.770  -0.02334      1 0.4337733</span></a>
+<a class="sourceLine" id="cb11-36" title="36"><span class="co"># 26 2005 0.170  36.07  35.06 5.967 5.967  3.9870 1.799000 0.8209   18.89  18.700  -0.01015      1 0.4104461</span></a>
+<a class="sourceLine" id="cb11-37" title="37"><span class="co"># 27 2006 0.176  34.09  33.12 5.816 5.816  3.9040 1.856000 0.7759   16.98  17.660   0.03938      1 0.3879153</span></a>
+<a class="sourceLine" id="cb11-38" title="38"><span class="co"># 28 2007 0.181  32.18  31.24 5.654 5.654  3.8090 1.913000 0.7324   16.04  16.660   0.03798      1 0.3661812</span></a>
+<a class="sourceLine" id="cb11-39" title="39"><span class="co"># 29 2008 0.186  30.34  29.43 5.483 5.483  3.7030 1.969000 0.6904   14.56  15.700   0.07507      1 0.3452435</span></a>
+<a class="sourceLine" id="cb11-40" title="40"><span class="co"># 30 2009 0.192  28.56  27.68 5.303 5.303  3.5880 2.025000 0.6499   14.10  14.760   0.04599      1 0.3249886</span></a>
+<a class="sourceLine" id="cb11-41" title="41"><span class="co"># 31 2010 0.197  26.84  26.00 5.116 5.116  3.4640 2.080000 0.6109   14.31  13.870  -0.03151      1 0.3054165</span></a>
+<a class="sourceLine" id="cb11-42" title="42"><span class="co"># 32 2011 0.202  25.19  24.38 4.924 4.924  3.3330 2.135000 0.5733   12.52  13.000   0.03775      1 0.2866409</span></a>
+<a class="sourceLine" id="cb11-43" title="43"><span class="co"># 33 2012 0.207  23.60  22.82 4.726 4.726  3.1960 2.189000 0.5370   12.08  12.170   0.00740      1 0.2685480</span></a>
+<a class="sourceLine" id="cb11-44" title="44"><span class="co"># 34 2013 0.212  22.07  21.32 4.525 4.525  3.0550 2.243000 0.5022   10.84  11.370   0.04776      1 0.2511379</span></a>
+<a class="sourceLine" id="cb11-45" title="45"><span class="co"># 35 2014 0.217  20.60  19.88 4.321 4.321  2.9100 2.297000 0.4688   10.23  10.600   0.03577      1 0.2344106</span></a>
+<a class="sourceLine" id="cb11-46" title="46"><span class="co"># 36 2015 0.216  19.19  18.56 4.010 4.010  2.7700 2.284000 0.4367    9.16   9.897   0.07738      1 0.2183660</span></a>
+<a class="sourceLine" id="cb11-47" title="47"><span class="co"># 37 2016 0.209  17.95  17.44 3.639 3.639  2.6450 2.205000 0.4085    8.53   9.303   0.08674      1 0.2042558</span></a>
+<a class="sourceLine" id="cb11-48" title="48"><span class="co"># 38 2017 0.201  16.95  16.55 3.335 3.335  2.5420 2.130000 0.3858    8.56   8.828   0.03080      1 0.1928766</span></a>
+<a class="sourceLine" id="cb11-49" title="49"><span class="co"># 39 2018 0.195  16.16  15.85 3.083 3.083  2.4580 2.057000 0.3678    7.35   8.450   0.13952      1 0.1838871</span></a>
+<a class="sourceLine" id="cb11-50" title="50"><span class="co"># 40 2019 0.188  15.54  15.29 2.875 2.875  2.3900 1.987000 0.3536    7.65   8.155   0.06391      1 0.1768320</span></a>
+<a class="sourceLine" id="cb11-51" title="51"><span class="co"># 41 2020 0.182  15.05  14.87 2.701 2.701  2.3370 1.920000 0.3425    7.41   7.929   0.06770      1 0.1712563</span></a>
+<a class="sourceLine" id="cb11-52" title="52"><span class="co"># 42 2021 0.176  14.69  14.56 2.556 2.556  2.2980 1.856000 0.3342    7.00   7.764   0.10354      1 0.1671598</span></a>
+<a class="sourceLine" id="cb11-53" title="53"><span class="co"># 43 2022 0.170  14.43  14.35 2.434 2.434  2.2720 1.793000 0.3284    6.87   7.652   0.10778      1 0.1642012</span></a>
+<a class="sourceLine" id="cb11-54" title="54"><span class="co"># 44 2023 0.164  14.27  14.23 2.333 2.333  2.2560 1.733000 0.3247    6.27   7.588   0.19084      1 0.1623805</span></a>
+<a class="sourceLine" id="cb11-55" title="55"><span class="co"># 45 2024 0.158  14.19  14.19 2.247 2.247  2.2520 1.673000 0.3229    6.32   7.569   0.18038      1 0.1614702</span></a>
+<a class="sourceLine" id="cb11-56" title="56"><span class="co"># 46 2025 0.153  14.20  14.24 2.176 2.176  2.2570 1.616000 0.3230    6.86   7.592   0.10144      1 0.1615840</span></a>
+<a class="sourceLine" id="cb11-57" title="57"><span class="co"># 47 2026 0.148  14.28  14.35 2.118 2.118  2.2720 1.560000 0.3249    6.96   7.655   0.09523      1 0.1624943</span></a>
+<a class="sourceLine" id="cb11-58" title="58"><span class="co"># 48 2027 0.142  14.43  14.55 2.069 2.069  2.2970 1.503000 0.3284    7.42   7.757   0.04445      1 0.1642012</span></a>
+<a class="sourceLine" id="cb11-59" title="59"><span class="co"># 49 2028 0.137  14.66  14.81 2.029 2.029  2.3300 1.448000 0.3336    7.70   7.898   0.02543      1 0.1668184</span></a>
+<a class="sourceLine" id="cb11-60" title="60"><span class="co"># 50 2029 0.132  14.96  15.15 1.996 1.996  2.3720 1.393000 0.3404    7.28   8.079   0.10412      1 0.1702321</span></a>
+<a class="sourceLine" id="cb11-61" title="61"><span class="co"># 51 2030 0.127  15.34  15.56 1.969 1.969  2.4230 1.337000 0.3490    7.95   8.300   0.04312      1 0.1745562</span></a>
+<a class="sourceLine" id="cb11-62" title="62"><span class="co"># 52 2031 0.121  15.79  16.06 1.946 1.946  2.4830 1.281000 0.3594    8.09   8.565   0.05702      1 0.1796768</span></a>
+<a class="sourceLine" id="cb11-63" title="63"><span class="co"># 53 2032 0.116  16.33  16.64 1.927 1.927  2.5520 1.224000 0.3716    8.51   8.875   0.04196      1 0.1858216</span></a>
+<a class="sourceLine" id="cb11-64" title="64"><span class="co"># 54 2033 0.110  16.95  17.31 1.909 1.909  2.6310 1.165000 0.3858    9.01   9.234   0.02453      1 0.1928766</span></a>
+<a class="sourceLine" id="cb11-65" title="65"><span class="co"># 55 2034 0.105  17.68  18.09 1.892 1.892  2.7180 1.106000 0.4022    9.12   9.646   0.05611      1 0.2011834</span></a>
+<a class="sourceLine" id="cb11-66" title="66"><span class="co"># 56 2035 0.099  18.50  18.97 1.874 1.874  2.8150 1.044000 0.4210   10.07  10.120   0.00468      1 0.2105143</span></a>
+<a class="sourceLine" id="cb11-67" title="67"><span class="co"># 57 2036 0.093  19.44  19.97 1.853 1.853  2.9200 0.980600 0.4424   10.74  10.650  -0.00818      1 0.2212107</span></a>
+<a class="sourceLine" id="cb11-68" title="68"><span class="co"># 58 2037 0.087  20.51  21.11 1.828 1.828  3.0350 0.915200 0.4667   11.60  11.260  -0.02985      1 0.2333864</span></a>
+<a class="sourceLine" id="cb11-69" title="69"><span class="co"># 59 2038 0.080  21.72  22.40 1.795 1.795  3.1570 0.847200 0.4942   11.27  11.940   0.05806      1 0.2471552</span></a>
+<a class="sourceLine" id="cb11-70" title="70"><span class="co"># 60 2039 0.074  23.08  23.84 1.753 1.753  3.2870 0.777100 0.5252   12.90  12.720  -0.01437      1 0.2626309</span></a>
+<a class="sourceLine" id="cb11-71" title="71"><span class="co"># 61 2040 0.067  24.61  25.47 1.699 1.699  3.4220 0.705000 0.5601   13.84  13.580  -0.01863      1 0.2800410</span></a>
+<a class="sourceLine" id="cb11-72" title="72"><span class="co"># 62 2041 0.060  26.34  27.30 1.630 1.630  3.5600 0.631100 0.5993   14.57  14.560  -0.00078      1 0.2997269</span></a>
+<a class="sourceLine" id="cb11-73" title="73"><span class="co"># 63 2042 0.053  28.27  29.34 1.543 1.543  3.6970 0.555900 0.6432   16.04  15.650  -0.02475      1 0.3216887</span></a>
+<a class="sourceLine" id="cb11-74" title="74"><span class="co"># 64 2043 0.045  30.42  31.62 1.433 1.433  3.8290 0.479100 0.6923   17.28  16.860  -0.02451      1 0.3461538</span></a>
+<a class="sourceLine" id="cb11-75" title="75"><span class="co"># 65 2044 0.038  32.82  34.14 1.297 1.297  3.9490 0.401500 0.7468   19.24  18.210  -0.05513      1 0.3734638</span></a>
+<a class="sourceLine" id="cb11-76" title="76"><span class="co"># 66 2045 0.031  35.47  36.93 1.130 1.130  4.0500 0.323400 0.8072   19.40  19.690   0.01506      1 0.4036186</span></a>
+<a class="sourceLine" id="cb11-77" title="77"><span class="co"># 67 2046 0.023  38.39  39.99 0.928 0.928  4.1220 0.245300 0.8736   22.11  21.330  -0.03613      1 0.4368457</span></a>
+<a class="sourceLine" id="cb11-78" title="78"><span class="co"># 68 2047 0.016  41.58  43.32 0.686 0.686  4.1540 0.167400 0.9463   22.97  23.100   0.00578      1 0.4731452</span></a>
+<a class="sourceLine" id="cb11-79" title="79"><span class="co"># 69 2048 0.008  45.05  46.93 0.398 0.398  4.1360 0.089650 1.0250   26.04  25.030  -0.03971      1 0.5126309</span></a>
+<a class="sourceLine" id="cb11-80" title="80"><span class="co"># 70 2049 0.001  48.79  50.80 0.058 0.058  4.0530 0.012070 1.1100   29.22  27.090  -0.07569      1 0.5551889</span></a>
+<a class="sourceLine" id="cb11-81" title="81"><span class="co"># 71 2050 0.001  52.78  54.72 0.062 0.062  3.9050 0.011980 1.2010   30.32  29.180  -0.03823      1 0.6005917</span></a>
+<a class="sourceLine" id="cb11-82" title="82"><span class="co">#  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 70 rows ]</span></a>
+<a class="sourceLine" id="cb11-83" title="83"><span class="co"># </span></a>
+<a class="sourceLine" id="cb11-84" title="84"><span class="co"># $timespent</span></a>
+<a class="sourceLine" id="cb11-85" title="85"><span class="co"># [1] 3.046</span></a>
+<a class="sourceLine" id="cb11-86" title="86"><span class="co"># </span></a>
+<a class="sourceLine" id="cb11-87" title="87"><span class="co"># $operation</span></a>
+<a class="sourceLine" id="cb11-88" title="88"><span class="co">#                                         ASPIC.operation objective.function estimated.contrast.index</span></a>
+<a class="sourceLine" id="cb11-89" title="89"><span class="co"># 1 Fit logistic (Schaefer) model by direct optimization.      Least squares                   0.8385</span></a>
+<a class="sourceLine" id="cb11-90" title="90"><span class="co"># </span></a>
+<a class="sourceLine" id="cb11-91" title="91"><span class="co"># $estimates</span></a>
+<a class="sourceLine" id="cb11-92" title="92"><span class="co">#     MSY    Fmsy     Bmsy     K       phi    shape Bly.Bmsy Fly.Fmsy      q</span></a>
+<a class="sourceLine" id="cb11-93" title="93"><span class="co"># 1 4.157 0.09461 43.93827 87.88 0.4999803 2.000079    1.074   0.9068 0.5333</span></a></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
