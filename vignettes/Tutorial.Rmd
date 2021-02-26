@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 
 
 <b style = 'color : red;'>Eliminate the "eval=FALSE" in each chunk of the document to run the code (tutorial) properly. </b>
+
+
 ## waspic
 
 The function writes an ASPIC7 program input file (.a7inp) from the available information which must include at least relative biomass index and catch time series. Our function also allows to specify some adjustment options, as the initial value for the catchability coefficient, the fit mode (simple or bootstrap), the estimation method or the production curve shape.  
