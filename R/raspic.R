@@ -39,6 +39,7 @@
 #' \item{Bmsy: }{Biomass at MSY.}
 #' \item{K: }{Maximum allowed population size.}
 #' \item{phi: }{Relation between the MSY biomass and K (B_{msy}/K).}
+#' \item{r: }{Natural population growth.}
 #' \item{n: }{Exponent in the production function. Note that Prager uses "n", but other authors may use "p" (n=1+p). Also note that in the logistic Schaefer model, n is always equal to 2 (and p=1). }
 #' \item{shape: }{Relation between the biomass at t=0 and the MSY biomass (B_0/B_{msy}).}
 #' \item{Bly.Bmsy: }{Relation between the biomass in the last year plus one and the MSY biomass.}
@@ -104,6 +105,8 @@ raspic<-function (filename) {
   a<-aspicres[ind]
   b<-base::strsplit(a, " ")[[1]]
   n<-as.numeric(b[24])
+  phi<-Bmsy/K
+  r=(Fmsy*(n-1))/(1-phi^(n-1))
   ind <- base::grep("ESTIMATED POPULATION TRAJECTORY", aspicres)
   states <- utils::read.table(filename, skip = ind + 6, sep = "",
                               nrows = nobs, strip.white = TRUE)
@@ -142,11 +145,10 @@ raspic<-function (filename) {
   estimated.contrast.index<-stats::na.omit(base::as.numeric(b))
   base::options(warn=1)
   out$operation<-base::data.frame(ASPIC.operation,objective.function,estimated.contrast.index)
-  phi<-Bmsy/K
-  shape<-K/Bmsy
+  shape<-out$states$B0est[1]/Bmsy
   Bly.Bmsy<-get.num("^B./Bmsy", aspicres)
   Fly.Fmsy<-get.num("^F./Fmsy", aspicres)
-  out$estimates<-base::data.frame(MSY,Fmsy,Bmsy,K,phi,n,shape,Bly.Bmsy,Fly.Fmsy,q)
+  out$estimates<-base::data.frame(MSY,Fmsy,Bmsy,K,phi,r,n,shape,Bly.Bmsy,Fly.Fmsy,q)
   return(out)
 }
 
