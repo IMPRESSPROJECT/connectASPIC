@@ -20,4 +20,4 @@ Please restart R after install the package.
 
 ### Acknowledgements
 
-The authors of connectASPIC thank to M. W. Pedersen, C. W. Berg, T. K. Mildenberger and A. Kokkalis since their R package spict has been an inspiration to create connectASPIC.
+The authors of connectASPIC thank to M. W. Pedersen, C. W. Berg, T. K. Mildenberger and A. Kokkalis since their R package Spict has been an inspiration to create connectASPIC.
