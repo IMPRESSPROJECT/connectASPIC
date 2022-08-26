@@ -1,5 +1,7 @@
 # connectASPIC
 
+Authors: Cousido-Rocha, M., Paz, A., Pennino, M.G., Cerviño, S.
+
 Fitting ASPIC (A Stock Production Model Incorporating Covariates)
 
 There are two options for installing our package:
